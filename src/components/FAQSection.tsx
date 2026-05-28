@@ -9,20 +9,24 @@ interface FAQ {
 
 const faqs: FAQ[] = [
   {
-    question: "What is Seiscan?",
-    answer: "Seiscan is a Sei wallet tracker that monitors the activities of top memecoin traders and KOLs. It provides realtime transactions, token PnL, and a leaderboard ranking their performance."
+    question: "What is SolScan AI?",
+    answer:
+      "SolScan AI is a Solana wallet intelligence dashboard for tracking top memecoin wallets, smart money activity, fresh buys, SPL token movements, and KOL-linked wallets."
   },
   {
-    question: "Is Seiscan free to use?",
-    answer: "All Seiscan features are free to use."
+    question: "Is this a Solana block explorer?",
+    answer:
+      "No. This frontend is positioned around trader-ready wallet intelligence rather than generic block explorer search, blocks, validators, or raw transaction browsing."
   },
   {
-    question: "Can I track non-KOL wallets?",
-    answer: "Yes, you can search any wallet address on Seiscan. However, its data is initially limited to the last 100 transactions unless you choose to load more."
+    question: "Is the live feed connected to Solana RPC yet?",
+    answer:
+      "Not yet. This phase is frontend-only and uses mock Solana wallet activity data. Real RPC, indexer, and alert integrations will come later."
   },
   {
-    question: "How do I get my wallet on the leaderboard?",
-    answer: "We are looking for the top trenchers! If you have $100k+ PnL in recent months, DM us your wallet for verification on X @seiscan."
+    question: "What wallet signals can I monitor?",
+    answer:
+      "The interface is prepared for Fresh Wallet, Whale, Smart Money, and KOL Wallet labels across BUY, SELL, and TRANSFER events sized in SOL with estimated USD values."
   }
 ];
 
@@ -34,22 +38,22 @@ export default function FAQSection() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 mb-12">
-      <h2 className="text-3xl font-bold text-white text-center mb-8">FAQs</h2>
+    <section id="faq" className="mx-auto max-w-4xl px-4 pb-16">
+      <h2 className="mb-8 text-center text-3xl font-bold text-white">FAQs</h2>
 
       <div className="space-y-4">
         {faqs.map((faq, index) => (
           <div
             key={index}
-            className="bg-gray-800/30 border border-gray-700 rounded-lg overflow-hidden"
+            className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.04]"
           >
             <button
               onClick={() => toggleFAQ(index)}
-              className="w-full text-left p-6 focus:outline-none hover:bg-gray-800/40 transition-colors flex items-center justify-between"
+              className="flex w-full items-center justify-between gap-4 p-6 text-left transition-colors hover:bg-white/[0.04] focus:outline-none"
             >
               <h3 className="text-lg font-semibold text-white">{faq.question}</h3>
               <svg
-                className={`w-5 h-5 text-gray-400 transform transition-transform ${
+                className={`h-5 w-5 shrink-0 transform text-slate-400 transition-transform ${
                   openIndex === index ? "rotate-180" : ""
                 }`}
                 fill="none"
@@ -62,12 +66,12 @@ export default function FAQSection() {
 
             {openIndex === index && (
               <div className="px-6 pb-6">
-                <p className="text-gray-300 leading-relaxed">{faq.answer}</p>
+                <p className="leading-relaxed text-slate-300">{faq.answer}</p>
               </div>
             )}
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }

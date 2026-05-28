@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Seiscan",
-  description: "Track the Top Memecoin Traders on Sei in Realtime",
+  title: "SolScan AI",
+  description:
+    "Track top Solana memecoin wallets, smart money, SPL token movements, and KOL-linked wallet activity in real time.",
 };
 
 export default function RootLayout({

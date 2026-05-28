@@ -2,86 +2,92 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { Menu, Search, Wallet, X, Zap } from "lucide-react";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navItems = [
+    { label: "Live Feed", href: "#feed" },
+    { label: "Signals", href: "#features" },
+    { label: "Community", href: "#community" },
+    { label: "FAQ", href: "#faq" }
+  ];
 
   return (
-    <div className="flex items-center justify-between p-4 bg-[#131414] border-b border-gray-700">
-      {/* Logo and Price */}
-      <div className="flex items-center gap-6">
-        <Link href="/" className="text-2xl font-semibold text-white">
-          Seiscan
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#090a12]/90 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 lg:px-8">
+        <Link href="/" className="flex items-center gap-3 text-white">
+          <span className="grid h-9 w-9 place-items-center rounded-lg border border-emerald-400/30 bg-emerald-400/10 text-emerald-300">
+            <Zap size={18} />
+          </span>
+          <span className="text-xl font-semibold tracking-normal">SolScan AI</span>
         </Link>
-        <div className="hidden sm:flex items-center bg-gray-800/50 border border-gray-600 rounded-lg px-3 py-2">
-          <span className="text-lg font-medium text-white">$0.32</span>
+
+        <nav className="hidden items-center gap-6 md:flex">
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="text-sm font-medium text-slate-300 transition-colors hover:text-white"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-3">
+          <div className="hidden items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-slate-300 sm:flex">
+            <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_16px_rgba(52,211,153,0.8)]" />
+            SOL $168.42
+          </div>
+
+          <button
+            type="button"
+            aria-label="Search wallets"
+            className="grid h-10 w-10 place-items-center rounded-lg border border-white/10 bg-white/[0.04] text-slate-300 transition-colors hover:text-white"
+          >
+            <Search size={18} />
+          </button>
+
+          <button
+            type="button"
+            className="hidden items-center gap-2 rounded-lg bg-emerald-400 px-4 py-2 text-sm font-semibold text-[#07120d] transition-colors hover:bg-emerald-300 sm:inline-flex"
+          >
+            <Wallet size={16} />
+            Connect
+          </button>
+
+          <button
+            type="button"
+            aria-label="Toggle menu"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="grid h-10 w-10 place-items-center rounded-lg border border-white/10 bg-white/[0.04] text-slate-300 transition-colors hover:text-white md:hidden"
+          >
+            {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
         </div>
       </div>
 
-      {/* Desktop Navigation */}
-      <div className="hidden md:flex items-center gap-6">
-        <Link href="/trades" className="text-gray-300 hover:text-white transition-colors">
-          Trades
-        </Link>
-        <Link href="/tokens" className="text-gray-300 hover:text-white transition-colors">
-          Tokens
-        </Link>
-        <Link href="/leaderboard" className="text-gray-300 hover:text-white transition-colors">
-          Leaderboard
-        </Link>
-      </div>
-
-      {/* Right Side */}
-      <div className="flex items-center gap-4">
-        {/* Search Icon */}
-        <button className="p-2 hover:bg-gray-800 rounded-lg transition-colors">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.35-4.35"></path>
-          </svg>
-        </button>
-
-        {/* Connect Wallet */}
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
-          Connect Wallet
-        </button>
-
-        {/* Settings/Menu Icon */}
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="p-2 hover:bg-gray-800 rounded-lg transition-colors md:hidden"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="12" cy="12" r="3"></circle>
-            <circle cx="19" cy="4" r="2"></circle>
-            <circle cx="5" cy="20" r="2"></circle>
-            <circle cx="19" cy="20" r="2"></circle>
-            <circle cx="5" cy="4" r="2"></circle>
-          </svg>
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="absolute top-full left-0 right-0 bg-[#131414] border-b border-gray-700 md:hidden">
-          <div className="flex flex-col p-4 gap-4">
-            <Link href="/trades" className="text-gray-300 hover:text-white transition-colors">
-              Trades
-            </Link>
-            <Link href="/tokens" className="text-gray-300 hover:text-white transition-colors">
-              Tokens
-            </Link>
-            <Link href="/leaderboard" className="text-gray-300 hover:text-white transition-colors">
-              Leaderboard
-            </Link>
-            <hr className="border-gray-700" />
-            <div className="flex items-center justify-between">
-              <span className="text-white">SEI Price:</span>
-              <span className="text-lg font-medium text-white">$0.32</span>
+        <div className="border-t border-white/10 bg-[#090a12] px-4 py-4 md:hidden">
+          <nav className="mx-auto flex max-w-7xl flex-col gap-3">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setIsMenuOpen(false)}
+                className="rounded-lg px-3 py-2 text-slate-300 transition-colors hover:bg-white/[0.04] hover:text-white"
+              >
+                {item.label}
+              </Link>
+            ))}
+            <div className="flex items-center justify-between rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-slate-300">
+              <span>SOL Price</span>
+              <span className="font-semibold text-white">$168.42</span>
             </div>
-          </div>
+          </nav>
         </div>
       )}
-    </div>
+    </header>
   );
 }

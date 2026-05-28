@@ -8,7 +8,7 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <div className="layoutContainer">
+    <div className="layoutContainer bg-[#090a12]">
       <div className="mainContent">
         <Header />
         <HeroSection />

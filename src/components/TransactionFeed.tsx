@@ -1,204 +1,185 @@
-"use client";
+import { ArrowDownLeft, ArrowUpRight, Repeat2 } from "lucide-react";
 
-import Link from "next/link";
+type ActivityAction = "BUY" | "SELL" | "TRANSFER";
+type SignalBadge = "Fresh Wallet" | "Whale" | "Smart Money" | "KOL Wallet";
 
-interface Transaction {
+interface WalletActivity {
   id: string;
-  trader: string;
-  action: "bought" | "sold";
-  amount: string;
-  amountUsd: string;
+  wallet: string;
+  label: string;
   token: string;
-  price: string;
-  timeAgo: string;
-  txHash: string;
-  traderImage: string;
+  action: ActivityAction;
+  amountSol: string;
+  estimatedUsd: string;
+  timestamp: string;
+  signal: SignalBadge;
 }
 
-const mockTransactions: Transaction[] = [
+const mockActivity: WalletActivity[] = [
   {
     id: "1",
-    trader: "seiwhale92",
-    action: "sold",
-    amount: "2.15 sei",
-    amountUsd: "28.7m",
-    token: "Big Floppa",
-    price: "$0.000013",
-    timeAgo: "14s",
-    txHash: "abc123",
-    traderImage: "https://ext.same-assets.com/3959085109/3602986825.png"
+    wallet: "7mR4...9Qk2",
+    label: "alpha sweeper",
+    token: "$WIF",
+    action: "BUY",
+    amountSol: "18.42 SOL",
+    estimatedUsd: "$3,101",
+    timestamp: "12s ago",
+    signal: "Smart Money"
   },
   {
     id: "2",
-    trader: "SeiTrader",
-    action: "sold",
-    amount: "1.95 sei",
-    amountUsd: "47.4m",
-    token: "PRAY",
-    price: "$0.0000066",
-    timeAgo: "17s",
-    txHash: "def456",
-    traderImage: "https://ext.same-assets.com/3959085109/1294207204.png"
+    wallet: "Hn8p...V2xz",
+    label: "new pair hunter",
+    token: "$POPCAT",
+    action: "BUY",
+    amountSol: "6.80 SOL",
+    estimatedUsd: "$1,145",
+    timestamp: "27s ago",
+    signal: "Fresh Wallet"
   },
   {
     id: "3",
-    trader: "SeiTrader",
-    action: "sold",
-    amount: "0.997 sei",
-    amountUsd: "15.8m",
-    token: "PRAY",
-    price: "$0.000010",
-    timeAgo: "25s",
-    txHash: "ghi789",
-    traderImage: "https://ext.same-assets.com/3959085109/1294207204.png"
+    wallet: "4KxY...bN91",
+    label: "high conviction whale",
+    token: "$BONK",
+    action: "TRANSFER",
+    amountSol: "42.10 SOL",
+    estimatedUsd: "$7,087",
+    timestamp: "44s ago",
+    signal: "Whale"
   },
   {
     id: "4",
-    trader: "seiwhale92",
-    action: "bought",
-    amount: "1.52 sei",
-    amountUsd: "22.3m",
-    token: "Big Floppa",
-    price: "$0.000011",
-    timeAgo: "29s",
-    txHash: "jkl012",
-    traderImage: "https://ext.same-assets.com/3959085109/3602986825.png"
+    wallet: "9sVd...Qp44",
+    label: "influencer cluster",
+    token: "$MOTHER",
+    action: "SELL",
+    amountSol: "11.05 SOL",
+    estimatedUsd: "$1,860",
+    timestamp: "1m ago",
+    signal: "KOL Wallet"
   },
   {
     id: "5",
-    trader: "SeiTrader",
-    action: "sold",
-    amount: "1.66 sei",
-    amountUsd: "29.1m",
-    token: "Big Floppa",
-    price: "$0.0000091",
-    timeAgo: "40s",
-    txHash: "mno345",
-    traderImage: "https://ext.same-assets.com/3959085109/1294207204.png"
+    wallet: "2BVa...L7fq",
+    label: "early buyer",
+    token: "$MEW",
+    action: "BUY",
+    amountSol: "25.00 SOL",
+    estimatedUsd: "$4,208",
+    timestamp: "2m ago",
+    signal: "Whale"
   },
   {
     id: "6",
-    trader: "SeiGambler",
-    action: "sold",
-    amount: "3.7 sei",
-    amountUsd: "22.2m",
-    token: "SHILLCOIN",
-    price: "$0.000027",
-    timeAgo: "48s",
-    txHash: "pqr678",
-    traderImage: "https://ext.same-assets.com/3959085109/611962820.png"
-  },
-  {
-    id: "7",
-    trader: "SeiDali",
-    action: "sold",
-    amount: "0.546 sei",
-    amountUsd: "13.5m",
-    token: "RUG",
-    price: "$0.0000065",
-    timeAgo: "53s",
-    txHash: "stu901",
-    traderImage: "https://ext.same-assets.com/3959085109/3507304200.png"
-  },
-  {
-    id: "8",
-    trader: "SeiCupsey",
-    action: "sold",
-    amount: "6.19 sei",
-    amountUsd: "86.8m",
-    token: "RUG",
-    price: "$0.000011",
-    timeAgo: "59s",
-    txHash: "vwx234",
-    traderImage: "https://ext.same-assets.com/3959085109/2167919955.png"
-  },
-  {
-    id: "9",
-    trader: "SeiDali",
-    action: "bought",
-    amount: "1.06 sei",
-    amountUsd: "13.5m",
-    token: "RUG",
-    price: "$0.000013",
-    timeAgo: "1m",
-    txHash: "yz0123",
-    traderImage: "https://ext.same-assets.com/3959085109/3507304200.png"
-  },
-  {
-    id: "10",
-    trader: "SeiCupsey",
-    action: "bought",
-    amount: "3.02 sei",
-    amountUsd: "86.8m",
-    token: "RUG",
-    price: "$0.0000056",
-    timeAgo: "1m",
-    txHash: "abc789",
-    traderImage: "https://ext.same-assets.com/3959085109/2167919955.png"
+    wallet: "Fs39...aK6m",
+    label: "rotator",
+    token: "$BOME",
+    action: "SELL",
+    amountSol: "8.75 SOL",
+    estimatedUsd: "$1,473",
+    timestamp: "3m ago",
+    signal: "Smart Money"
   }
 ];
 
+const actionStyles: Record<ActivityAction, string> = {
+  BUY: "border-emerald-400/30 bg-emerald-400/10 text-emerald-200",
+  SELL: "border-rose-400/30 bg-rose-400/10 text-rose-200",
+  TRANSFER: "border-purple-400/30 bg-purple-400/10 text-purple-200"
+};
+
+const signalStyles: Record<SignalBadge, string> = {
+  "Fresh Wallet": "border-cyan-400/30 bg-cyan-400/10 text-cyan-200",
+  Whale: "border-purple-400/30 bg-purple-400/10 text-purple-200",
+  "Smart Money": "border-emerald-400/30 bg-emerald-400/10 text-emerald-200",
+  "KOL Wallet": "border-amber-400/30 bg-amber-400/10 text-amber-200"
+};
+
+const actionIcons = {
+  BUY: ArrowDownLeft,
+  SELL: ArrowUpRight,
+  TRANSFER: Repeat2
+};
+
 export default function TransactionFeed() {
   return (
-    <div className="max-w-6xl mx-auto px-4 mb-12">
-      <div className="bg-gray-800/30 border border-gray-700 rounded-lg overflow-hidden">
-        {mockTransactions.map((tx) => (
-          <div key={tx.id} className="border-b border-gray-700 last:border-b-0">
-            <div className="flex items-center justify-between p-4 hover:bg-gray-800/20 transition-colors">
-              <div className="flex items-center gap-3 flex-1">
-                {/* Trader Avatar */}
-                <img
-                  src={tx.traderImage}
-                  alt={tx.trader}
-                  className="w-8 h-8 rounded-full"
-                />
+    <section id="feed" className="px-4 pb-16 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-300">
+              Live wallet feed
+            </p>
+            <h2 className="mt-2 text-3xl font-bold text-white">
+              Solana activity worth watching
+            </h2>
+          </div>
+          <p className="max-w-xl text-sm leading-6 text-slate-400">
+            Mock Solana memecoin activity showing wallet labels, SPL token
+            tickers, SOL size, estimated USD value, and signal quality.
+          </p>
+        </div>
 
-                {/* Transaction Details */}
-                <div className="flex items-center gap-2 flex-wrap">
-                  <Link
-                    href={`/account/${tx.trader}`}
-                    className="font-semibold text-white hover:text-blue-400 transition-colors"
-                  >
-                    {tx.trader}
-                  </Link>
+        <div className="overflow-hidden rounded-lg border border-white/10 bg-[#0d101b]/90">
+          <div className="hidden grid-cols-[1.3fr_0.8fr_0.8fr_0.9fr_1fr_0.7fr] gap-4 border-b border-white/10 px-5 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 md:grid">
+            <span>Wallet</span>
+            <span>Action</span>
+            <span>Token</span>
+            <span>Amount</span>
+            <span>Signal</span>
+            <span className="text-right">Time</span>
+          </div>
 
-                  <span className="text-gray-300">{tx.action}</span>
+          <div className="divide-y divide-white/10">
+            {mockActivity.map((activity) => {
+              const Icon = actionIcons[activity.action];
+
+              return (
+                <article
+                  key={activity.id}
+                  className="grid gap-4 px-5 py-4 transition-colors hover:bg-white/[0.03] md:grid-cols-[1.3fr_0.8fr_0.8fr_0.9fr_1fr_0.7fr] md:items-center"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-purple-500/30 to-emerald-400/20 text-sm font-bold text-white">
+                      {activity.wallet.slice(0, 2)}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-white">{activity.wallet}</p>
+                      <p className="text-sm text-slate-400">{activity.label}</p>
+                    </div>
+                  </div>
 
                   <span
-                    className={`font-medium ${
-                      tx.action === "bought" ? "text-green-400" : "text-red-400"
-                    }`}
+                    className={`inline-flex w-fit items-center gap-2 rounded-lg border px-3 py-1 text-xs font-bold ${actionStyles[activity.action]}`}
                   >
-                    {tx.amount} ({tx.amountUsd})
+                    <Icon size={14} />
+                    {activity.action}
                   </span>
 
-                  <span className="text-gray-300">of</span>
+                  <span className="font-semibold text-white">{activity.token}</span>
 
-                  <span className="font-semibold text-white cursor-pointer hover:text-blue-400 transition-colors">
-                    {tx.token}
+                  <div>
+                    <p className="font-semibold text-white">{activity.amountSol}</p>
+                    <p className="text-sm text-slate-400">{activity.estimatedUsd}</p>
+                  </div>
+
+                  <span
+                    className={`inline-flex w-fit rounded-lg border px-3 py-1 text-xs font-semibold ${signalStyles[activity.signal]}`}
+                  >
+                    {activity.signal}
                   </span>
 
-                  <span className="text-gray-300">at</span>
-
-                  <span className="text-yellow-400 font-medium">
-                    {tx.price}
+                  <span className="text-left text-sm text-slate-400 md:text-right">
+                    {activity.timestamp}
                   </span>
-                </div>
-              </div>
-
-              {/* Time and Link */}
-              <a
-                href={`https://seitrace.com/tx/${tx.txHash}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors text-sm whitespace-nowrap ml-4"
-              >
-                {tx.timeAgo} <span className="remove-mobile">ago</span>
-              </a>
-            </div>
+                </article>
+              );
+            })}
           </div>
-        ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
